@@ -37,9 +37,11 @@ class ConnectorFacade
                 );
             }
         } catch (RedisException) {
+            //todo: Выбросить исключение, что сервис недоступен
         }
 
         if ($isConnected) {
+            //todo: нижеследующие 2 условия тоже обернуть в if, при не выполнении одного из них выбросить соответствующее исключение
             $redis->auth($this->password);
             $redis->select($this->dbindex);
             $this->connector = new Connector($redis);

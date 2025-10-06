@@ -1,5 +1,7 @@
 <?php
 
+// todo: add "declare(strict_types = 1);"
+
 namespace Raketa\BackendTestTask\Controller;
 
 use Psr\Http\Message\RequestInterface;
@@ -18,7 +20,7 @@ readonly class AddToCartController
         private CartManager $cartManager,
     ) {
     }
-
+//todo: Лучше метод назвать add()
     public function get(RequestInterface $request): ResponseInterface
     {
         $rawRequest = json_decode($request->getBody()->getContents(), true);
@@ -31,6 +33,7 @@ readonly class AddToCartController
             $product->getPrice(),
             $rawRequest['quantity'],
         ));
+        //todo: $this->cartManager->saveCart($cart)
 
         $response = new JsonResponse();
         $response->getBody()->write(

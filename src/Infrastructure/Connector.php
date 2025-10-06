@@ -20,6 +20,7 @@ class Connector
     /**
      * @throws ConnectorException
      */
+//    todo: Исправить Cart на string
     public function get(Cart $key)
     {
         try {

@@ -1,5 +1,7 @@
 <?php
 
+// todo: add "declare(strict_types = 1);"
+
 namespace Raketa\BackendTestTask\View;
 
 use Raketa\BackendTestTask\Repository\Entity\Product;

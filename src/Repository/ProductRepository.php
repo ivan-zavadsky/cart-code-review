@@ -19,6 +19,7 @@ class ProductRepository
     public function getByUuid(string $uuid): Product
     {
         $row = $this->connection->fetchOne(
+//            todo: Заменить в select звёздочку на параметры продукта
             "SELECT * FROM products WHERE uuid = " . $uuid,
         );
 
@@ -33,6 +34,7 @@ class ProductRepository
     {
         return array_map(
             static fn (array $row): Product => $this->make($row),
+//            todo: Добавить в select остальные параметры продукта
             $this->connection->fetchAllAssociative(
                 "SELECT id FROM products WHERE is_active = 1 AND category = " . $category,
             )
@@ -41,6 +43,7 @@ class ProductRepository
 
     public function make(array $row): Product
     {
+        //todo: привести типы, чтобы конструктор их принял
         return new Product(
             $row['id'],
             $row['uuid'],

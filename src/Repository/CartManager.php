@@ -29,6 +29,11 @@ class CartManager extends ConnectorFacade
      */
     public function saveCart(Cart $cart)
     {
+
+        //todo: 1. Проверить, была ли создана сессия. Если нет, создать
+        // 2. Перепутан порядок аргументов. Поправить
+        // 3. Придумать и реализовать алгоритм для имени ключа.
+        // Как минимум "cart_key:" . session_id()
         try {
             $this->connector->set($cart, session_id());
         } catch (Exception $e) {
@@ -47,6 +52,7 @@ class CartManager extends ConnectorFacade
             $this->logger->error('Error');
         }
 
+        //todo: Передать в конструктор минимально необходимые параметры
         return new Cart(session_id(), []);
     }
 }
