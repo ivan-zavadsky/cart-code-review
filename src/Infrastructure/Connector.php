@@ -21,7 +21,7 @@ class Connector
      * @throws ConnectorException
      */
 //    todo: Исправить Cart на string
-    public function get(Cart $key)
+    public function get(string $key)
     {
         try {
             return unserialize($this->redis->get($key));

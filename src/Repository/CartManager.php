@@ -35,7 +35,15 @@ class CartManager extends ConnectorFacade
         // 3. Придумать и реализовать алгоритм для имени ключа.
         // Как минимум "cart_key:" . session_id()
         try {
-            $this->connector->set($cart, session_id());
+            switch (session_status()) {
+                case PHP_SESSION_NONE:
+                    session_start();
+                    break;
+                case PHP_SESSION_DISABLED:
+                    throw new Exception('Session is disabled');
+            }
+            $key = 'cart_key:' . session_id();
+            $this->connector->set($key, $cart);
         } catch (Exception $e) {
             $this->logger->error('Error');
         }
@@ -52,7 +60,16 @@ class CartManager extends ConnectorFacade
             $this->logger->error('Error');
         }
 
+        /**
+         * @var $customer - Получить из компонента фреймворка
+         * @var $defaultPaymentMethod
+         */
         //todo: Передать в конструктор минимально необходимые параметры
-        return new Cart(session_id(), []);
+        return new Cart(
+            session_id(),
+            $customer,
+            $defaultPaymentMethod,
+            []
+        );
     }
 }

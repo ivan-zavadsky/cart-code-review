@@ -20,7 +20,7 @@ class ProductRepository
     {
         $row = $this->connection->fetchOne(
 //            todo: Заменить в select звёздочку на параметры продукта
-            "SELECT * FROM products WHERE uuid = " . $uuid,
+            "SELECT id, category, is_active, name, description, thumbnail, price FROM products WHERE uuid = " . $uuid,
         );
 
         if (empty($row)) {
@@ -36,7 +36,7 @@ class ProductRepository
             static fn (array $row): Product => $this->make($row),
 //            todo: Добавить в select остальные параметры продукта
             $this->connection->fetchAllAssociative(
-                "SELECT id FROM products WHERE is_active = 1 AND category = " . $category,
+                "SELECT id, category, is_active, name, description, thumbnail, price FROM products WHERE is_active = 1 AND category = " . $category,
             )
         );
     }
@@ -45,14 +45,14 @@ class ProductRepository
     {
         //todo: привести типы, чтобы конструктор их принял
         return new Product(
-            $row['id'],
+            (int) $row['id'],
             $row['uuid'],
-            $row['is_active'],
+            (bool) $row['is_active'],
             $row['category'],
             $row['name'],
             $row['description'],
             $row['thumbnail'],
-            $row['price'],
+            (float) $row['price'],
         );
     }
 }

@@ -21,7 +21,8 @@ readonly class GetCartController
     {
         $response = new JsonResponse();
         $cart = $this->cartManager->getCart();
-// todo: Переписать этот кусок. В if'е только определить параметры. Вернуть один раз в конце
+// todo: Переписать этот кусок. В if'е только определить параметры.
+// Вернуть один раз в конце
         if (! $cart) {
             $response->getBody()->write(
                 json_encode(
@@ -30,7 +31,7 @@ readonly class GetCartController
                 )
             );
 
-            return $response
+            $response
                 ->withHeader('Content-Type', 'application/json; charset=utf-8')
                 ->withStatus(404);
         } else {
@@ -40,11 +41,13 @@ readonly class GetCartController
                     JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
                 )
             );
+
+            $response
+                ->withHeader('Content-Type', 'application/json; charset=utf-8')
+                //todo: ->withStatus(200)
+                ->withStatus(200);
         }
 
-        return $response
-            ->withHeader('Content-Type', 'application/json; charset=utf-8')
-            //todo: ->withStatus(200)
-            ->withStatus(404);
+        return $response;
     }
 }
